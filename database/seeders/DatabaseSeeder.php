@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Todo; // ✅ Import Todo model
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash; // ✅ Import Hash
+use Illuminate\Support\Str; // ✅ Import Str
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +15,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // Buat 1 admin user
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('admin'),
+            'remember_token' => Str::random(10),
+            'is_admin' => true,
         ]);
+
+        // Buat 100 user biasa
+        User::factory(100)->create();
+
+        // Buat 100 todo
+        Todo::factory(500)->create();
     }
 }
