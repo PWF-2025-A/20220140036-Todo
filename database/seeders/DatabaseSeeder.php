@@ -29,6 +29,6 @@ class DatabaseSeeder extends Seeder
         User::factory(100)->create();
 
         // Buat 100 todo
-        Todo::factory(500)->create();
+        Todo::factory(900)->create();
     }
 }
