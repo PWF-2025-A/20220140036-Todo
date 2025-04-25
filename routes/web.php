@@ -30,6 +30,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/users', [UserController::class, 'index'])->name('user.index');
 
+    Route::get('/todo/create', [TodoController::class, 'create'])->name('todo.create');
+
+    Route::resource('todos', TodoCOntroller::class);
+
 });
 
 // Auth routes (sudah benar)

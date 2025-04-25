@@ -9,23 +9,27 @@ use Illuminate\Support\Facades\Auth;
 class TodoController extends Controller
 {
     public function index()
-    {
+    {   
 
-        // $todos = Todo::all(); 
-        
-        // // Kirim data todo ke view
-        // return view('todo.index', compact('todos'));
-       
-        // if (Auth::check()) {
-        //     dd('User ID: ' . Auth::id());
-        // } else {
-        //     dd('User belum login!');
-        // }
-        // // $todos = Todo::all();
-        $todos = Todo::where('user_id', Auth::id())->get();
-        dd($todos->toArray());
+        $todos = Todo::where('user_id', Auth::id())->orderBy('created_at','desc')->get();
+        // $todos = Todo::where('user_id', Auth::id())->get();
+        // dd($todos->toArray());
         return view('todo.index', compact('todos'));
     }
+
+    public function store(Request $request)
+   {
+    $request->validate([
+        'title' => 'required|string|max:255',
+    ]);
+
+    $todo = Todo::create([
+        'title' => ucfirst($request->title),
+        'user_id' => Auth::id(),
+    ]);
+
+    return redirect()->route('todo.index')->with('success', 'Todo created successfully.');
+   }
 
     public function create()
     {
