@@ -64,31 +64,58 @@
                         <tbody>
                             @forelse ($users as $data)
                                 <tr class="odd:bg-white odd:dark:bg-gray-800 even:bg-gray-50 even:dark:bg-gray-700">
-                                    <td scope="row" class="px-6 py-4 font-medium whitespace-nowrap dark:text-white">
+                                    <td class="px-6 py-4 font-medium whitespace-nowrap dark:text-white">
                                         {{ $data->id }}
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $data->name }}
+                                        @if ($data->is_admin)
+                                            <span class="ml-2 px-2 py-1 text-xs font-semibold text-white bg-green-500 rounded-full">Admin</span>
+                                        @endif
                                     </td>
                                     <td class="hidden px-6 py-4 md:block">
                                         {{ $data->email }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <p>
-                                            {{ $data->todos->count() }}
+                                            {{ optional($data->todos)->count() ?? 0 }}
                                             <span>
                                                 <span class="text-green-600 dark:text-green-400">
-                                                    ({{ $data->todos->where('is_done', true)->count() }}
+                                                    ({{ optional($data->todos)->where('is_done', true)->count() ?? 0 }})
                                                 </span>
                                                 /
                                                 <span class="text-blue-600 dark:text-blue-400">
-                                                    {{ $data->todos->where('is_done', false)->count() }})
+                                                    {{ optional($data->todos)->where('is_done', false)->count() ?? 0 }}
                                                 </span>
                                             </span>
                                         </p>
                                     </td>
-                                    <td class="px-6 py-4">
-                                        {{-- Tambahkan aksi di sini jika perlu --}}
+                                    <td class="px-6 py-4 space-x-2 whitespace-nowrap">
+                                        @if ($data->is_admin)
+                                            <form action="{{ route('user.removeadmin', $data->id) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="text-blue-600 dark:text-blue-400">
+                                                    Remove Admin
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('user.makeadmin', $data->id) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="text-red-600 dark:text-red-400">
+                                                    Make Admin
+                                                </button>
+                                            </form>
+                                        @endif
+
+                                        <form action="{{ route('user.destroy', $data->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 dark:text-red-400" onclick="return confirm('Are you sure?')">
+                                                Delete
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @empty

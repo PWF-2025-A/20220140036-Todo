@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Todo; // ✅ Import Todo model
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash; // ✅ Import Hash
-use Illuminate\Support\Str; // ✅ Import Str
+use Illuminate\Support\Str; 
 
 class DatabaseSeeder extends Seeder
 {
