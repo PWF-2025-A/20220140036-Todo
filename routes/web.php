@@ -22,7 +22,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('/todo/{id}', [TodoController::class, 'show'])->name('todo.show');
     // Route::get('/todo/{id}/edit', [TodoController::class, 'edit'])->name('todo.edit');
     // Route::put('/todo/{id}', [TodoController::class, 'update'])->name('todo.update');
-    Route::delete('/todo/{id}', [TodoController::class, 'destroy'])->name('todo.destroy');
+    // Route::delete('/todo/{id}', [TodoController::class, 'destroy'])->name('todo.destroy');
 
     Route::patch('/todo/{todo}/complete', [TodoController::class, 'complete'])->name('todo.complete');
     Route::patch('/todo/{todo}/incomplete', [TodoController::class, 'uncomplete'])->name('todo.uncomplete');
@@ -38,6 +38,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('/user/{user}/makeadmin', [UserController::class, 'makeadmin'])->name('user.makeadmin');
     Route::patch('/user/{user}/removeadmin', [UserController::class, 'removeadmin'])->name('user.removeadmin');
     Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+
+
+    Route::middleware(['auth', 'admin'])->group(function(){
+        Route::resource('user', UserController::class)->except(['show']);
+        Route::patch('/user/{user}/makeadmin', [UserController::class, 'makeadmin'])->name('user.makeadmin');
+        Route::patch('/user/{user}/removeadmin', [UserController::class, 'removeadmin'])->name('user.removeadmin');
+
+
+    });
+
+    
 });
 
 require __DIR__.'/auth.php';
