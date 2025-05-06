@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
 
+    
     Route::middleware(['auth', 'admin'])->group(function(){
         Route::resource('user', UserController::class)->except(['show']);
         Route::patch('/user/{user}/makeadmin', [UserController::class, 'makeadmin'])->name('user.makeadmin');
