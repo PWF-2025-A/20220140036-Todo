@@ -11,7 +11,6 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <form method="POST" action="{{ route('todo.store') }}">
                         @csrf
-                        @method('POST')
 
                         <div class="mb-6">
                             <x-input-label for="title" :value="__('Title')" />
@@ -25,6 +24,23 @@
                                 autocomplete="title"
                             />
                             <x-input-error class="mt-2" :messages="$errors->get('title')" />
+                        </div>
+
+                        <div class="mb-6">
+                            <x-input-label for="category_id" :value="__('Kategori')" />
+                            <select
+                                name="category_id"
+                                id="category_id"
+                                class="block w-full mt-1 rounded-md shadow-sm border-gray-300 dark:bg-gray-700 dark:text-white"
+                                
+                            >
+                              <option value="">Empty</option> <!-- Ini akan menjadi null -->
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                @endforeach
+
+                            </select>
+                            <x-input-error class="mt-2" :messages="$errors->get('category_id')" />
                         </div>
 
                         <div class="flex items-center gap-4">

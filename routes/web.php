@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,6 +15,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
+    Route::resource('categories', CategoryController::class); // pindah ke sini
+
     // Todo routes
     Route::resource('todo', TodoController::class)->except(['show']);
     // Route::get('/todo', [TodoController::class, 'index'])->name('todo.index');
@@ -41,6 +45,9 @@ Route::middleware('auth')->group(function () {
 
 
     
+
+
+    
     Route::middleware(['auth', 'admin'])->group(function(){
         Route::resource('user', UserController::class)->except(['show']);
         Route::patch('/user/{user}/makeadmin', [UserController::class, 'makeadmin'])->name('user.makeadmin');
@@ -48,6 +55,8 @@ Route::middleware('auth')->group(function () {
 
 
     });
+
+    //Kategori
 
     
 });

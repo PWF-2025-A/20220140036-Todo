@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('todos', function (Blueprint $table) {
-            //syntax table -> tipe data -> nama kolom
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id') ->constrained()->cascadeOnDelete();
-            $table->foreignId('category_id') ->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            // $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->string('title');
-            $table->boolean('is_done')->default(false);
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('todos');
+        Schema::dropIfExists('categories');
     }
 };
