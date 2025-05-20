@@ -22,10 +22,10 @@ class UserController extends Controller
                 ->paginate(20)
                 ->withQueryString();
         } else {
-            $users = User::with('todos')
+            $users = User::with('todos')->where('id', '!=', 1)
                 ->where('id', '!=', 1)
                 ->orderBy('name')
-                ->paginate(20);
+                ->paginate(10);
         }
 
         return view('user.index', compact('users'));
