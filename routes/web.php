@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
 
 
     
-    Route::middleware(['auth', 'admin'])->group(function(){
+    Route::middleware(['auth', 'verified'])->group(function(){
         Route::resource('user', UserController::class)->except(['show']);
         Route::patch('/user/{user}/makeadmin', [UserController::class, 'makeadmin'])->name('user.makeadmin');
         Route::patch('/user/{user}/removeadmin', [UserController::class, 'removeadmin'])->name('user.removeadmin');
