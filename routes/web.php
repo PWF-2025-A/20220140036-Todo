@@ -44,11 +44,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
 
-    
+    Route::get('/hash', function () {
+        return Hash::make('admin123');
+    });
 
 
-    
-    Route::middleware(['auth', 'verified'])->group(function(){
+
+
+    Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('user', UserController::class)->except(['show']);
         Route::patch('/user/{user}/makeadmin', [UserController::class, 'makeadmin'])->name('user.makeadmin');
         Route::patch('/user/{user}/removeadmin', [UserController::class, 'removeadmin'])->name('user.removeadmin');
@@ -58,7 +61,7 @@ Route::middleware('auth')->group(function () {
 
     //Kategori
 
-    
+
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
