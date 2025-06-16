@@ -30,7 +30,7 @@
 
                         {{-- Category --}}
                         <div class="mb-6">
-                            <label for="category" class="block mb-2 text-sm font-medium text-white">Category</label>
+                            <label for="category" class="block mb-2 text-sm font-medium text-white">id_user</label>
                             <input
                                 type="text"
                                 id="category"

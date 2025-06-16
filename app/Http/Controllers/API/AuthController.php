@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use Dedoc\Scramble\Support\Generator\Response;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailables\Content;
 use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -60,12 +63,48 @@ class AuthController extends Controller
     /**
      * Logout user yang sedang login.
      */
+
+        #[Response(
+        response: 200,
+        description: 'Logout berhasil',
+        content: [
+            'application/json' => [
+                'example' => [
+                    'status_code' => 200,
+                    'message' => 'Logout berhasil. Token telah dihapus.'
+                ]
+            ]
+        ]
+    )]
+    #[Response(
+        response: 500,
+        description: 'Gagal logout',
+        content: [
+            'application/json' => [
+                'example' => [
+                    'status_code' => 500,
+                    'message' => 'Gagal logout, terjadi kesalahan.'
+                ]
+            ]
+        ]
+    )]
+
     public function logout()
     {
-        Auth::guard('api')->logout();
-        return response()->json([
-            'message' => 'Logout berhasil',
-        ], 200);
+        try {
+            Auth::guard('api')->logout();
+
+            return response()->json([
+                'status_code' => 200,
+                'message'     => 'Logout berhasil. Token telah dihapus.',
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'status_code' => 500,
+                'message'     => 'Gagal logout, terjadi kesalahan.',
+                'error'       => $e->getMessage()
+            ], 500);
+        }
     }
 }
 
